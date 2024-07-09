@@ -189,3 +189,12 @@ def display_video(frames):
     anim = animation.FuncAnimation(fig=fig, func=update, frames=frames,
                                    interval=50, blit=True, repeat=False)
     return HTML(anim.to_html5_video())
+
+
+def show_frame(env, state):
+    """show a frame in the given environment"""
+    frame = env.render(mode='rgb_array')
+    plt.axis('off')
+    plt.title(f"State: {state}")
+    plt.imshow(frame)
+    plt.show()
