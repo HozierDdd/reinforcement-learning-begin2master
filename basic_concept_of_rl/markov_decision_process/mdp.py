@@ -5,6 +5,7 @@ from setup import show_frame
 
 
 def initialize_environment():
+    """Initialize the environment Maze"""
     env = Maze()
     initial_state = env.reset()
     return env, initial_state
@@ -59,6 +60,8 @@ def show_total_reward():
 
 
 def random_policy(state):
+    """Using numpy arrays when mathematical operations is needed(sum, average, array multiplication, etc)
+    Using list when iterate in 'items' (strings, files, etc) is needed."""
     return np.array([0.25] * 4)
 
 
@@ -93,7 +96,6 @@ def test_agent(policy):
     return display_video(frames)
 
 
-
 if __name__ == '__main__':
     # env, initial_state = initialize_environment()
     # print(f"For example, the initial state is: {env.reset()}")
@@ -103,5 +105,5 @@ if __name__ == '__main__':
     # show_trajectory()
     # show_episode()
     # show_total_reward()
-    # random_policy_episode()
-    test_agent(random_policy)
+    random_policy_episode()
+    # test_agent(random_policy)

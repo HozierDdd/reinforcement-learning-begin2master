@@ -191,7 +191,7 @@ def save_video(frames):
 
 def display_video(frames):
     """display video directly"""
-    plt.rcParams['animation.ffmpeg_path'] = r'C:\ffmpeg-7.0.1-full_build\bin\ffmpeg.exe'
+    # plt.rcParams['animation.ffmpeg_path'] = r'C:\ffmpeg-7.0.1-full_build\bin\ffmpeg.exe'
     matplotlib.use('TkAgg')  # Use TkAgg for interactive plots
     fig, ax = plt.subplots()
     im = ax.imshow(frames[0])
