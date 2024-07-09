@@ -1,10 +1,7 @@
-!pip install -qq gym==0.23.0
-
-
 from typing import Tuple, Dict, Optional, Iterable
 
 import numpy as np
-import matplotlib
+import matplotlib as plt
 from matplotlib import animation
 
 from IPython.display import HTML
@@ -63,14 +60,12 @@ class Maze(gym.Env):
         surf = pygame.Surface((screen_size, screen_size))
         surf.fill((22, 36, 71))
 
-
         for row in range(5):
             for col in range(5):
 
                 state = (row, col)
                 for next_state in [(row + 1, col), (row - 1, col), (row, col + 1), (row, col - 1)]:
                     if next_state not in self.maze[state]:
-
                         # Add the geometry of the edges and walls (i.e. the boundaries between
                         # adjacent squares that are not connected).
                         row_diff, col_diff = np.subtract(next_state, state)
@@ -79,7 +74,8 @@ class Maze(gym.Env):
                         top = (5 - (row + (row_diff > 0))) * scale - 2 * (row_diff != 0)
                         bottom = (5 - ((row + 1) - (row_diff < 0))) * scale + 2 * (row_diff != 0)
 
-                        gfxdraw.filled_polygon(surf, [(left, bottom), (left, top), (right, top), (right, bottom)], (255, 255, 255))
+                        gfxdraw.filled_polygon(surf, [(left, bottom), (left, top), (right, top), (right, bottom)],
+                                               (255, 255, 255))
 
         # Add the geometry of the goal square to the viewer.
         left, right, top, bottom = scale * 4 + 10, scale * 5 - 10, scale - 10, 10
@@ -94,8 +90,8 @@ class Maze(gym.Env):
         self.screen.blit(surf, (0, 0))
 
         return np.transpose(
-                np.array(pygame.surfarray.pixels3d(self.screen)), axes=(1, 0, 2)
-            )
+            np.array(pygame.surfarray.pixels3d(self.screen)), axes=(1, 0, 2)
+        )
 
     def close(self) -> None:
         if self.screen is not None:
@@ -177,17 +173,19 @@ class Maze(gym.Env):
 
 def display_video(frames):
     # Copied from: https://colab.research.google.com/github/deepmind/dm_control/blob/master/tutorial.ipynb
-    orig_backend = matplotlib.get_backend()
-    matplotlib.use('Agg')
+    orig_backend = plt.get_backend()
+    plt.use('Agg')
     fig, ax = plt.subplots(1, 1, figsize=(5, 5))
-    matplotlib.use(orig_backend)
+    plt.use(orig_backend)
     ax.set_axis_off()
     ax.set_aspect('equal')
     ax.set_position([0, 0, 1, 1])
     im = ax.imshow(frames[0])
+
     def update(frame):
         im.set_data(frame)
         return [im]
+
     anim = animation.FuncAnimation(fig=fig, func=update, frames=frames,
-                                    interval=50, blit=True, repeat=False)
+                                   interval=50, blit=True, repeat=False)
     return HTML(anim.to_html5_video())
