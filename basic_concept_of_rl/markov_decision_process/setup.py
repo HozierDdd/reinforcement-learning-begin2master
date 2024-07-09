@@ -1,9 +1,9 @@
 from typing import Tuple, Dict, Optional, Iterable
 
 import numpy as np
-import matplotlib as plt
+import matplotlib
 from matplotlib import animation
-
+from matplotlib import pyplot as plt
 from IPython.display import HTML
 
 import gym
@@ -173,10 +173,10 @@ class Maze(gym.Env):
 
 def display_video(frames):
     # Copied from: https://colab.research.google.com/github/deepmind/dm_control/blob/master/tutorial.ipynb
-    orig_backend = plt.get_backend()
-    plt.use('Agg')
+    orig_backend = matplotlib.get_backend()
+    matplotlib.use('Agg')
     fig, ax = plt.subplots(1, 1, figsize=(5, 5))
-    plt.use(orig_backend)
+    matplotlib.use(orig_backend)
     ax.set_axis_off()
     ax.set_aspect('equal')
     ax.set_position([0, 0, 1, 1])
