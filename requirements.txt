@@ -3,3 +3,4 @@ ipython~=8.23.0
 gym==0.23.0
 matplotlib==3.9.1
 pygame==2.6.0
+ffmpeg==1.4
