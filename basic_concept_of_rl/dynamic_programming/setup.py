@@ -50,8 +50,8 @@ class Maze(gym.Env):
         return self.state
 
     def render(self, mode: str = 'human') -> Optional[np.ndarray]:
-        """ If 'human', the method will display the rendered maze in a graphical window. If 'rgb_array', the method will return a NumPy array representing the RGB values of the rendered maze."""
-        assert mode in ['human', 'rgb_array']
+        assert mode in ['human', 'rgb_array']  # If 'human', the method will display the rendered maze in a graphical
+        # window. If 'rgb_array', the method will return a NumPy array representing the RGB values of the rendered maze.
 
         screen_size = 600
         scale = screen_size / 5
