@@ -5,6 +5,8 @@ import matplotlib
 from matplotlib import animation
 from matplotlib import pyplot as plt
 import seaborn as sns
+import matplotlib.patches as mpatches
+import torch
 
 from IPython.display import HTML
 
@@ -132,3 +134,76 @@ class Utils():
                 print(f"action:{action_meaning}, reward:{reward}, {'End' if done else 'Continue'}, state:{state}")
 
         return Utils.display_video(frames)
+
+    def seed_everything(self, seed: int = 42) -> None:
+        self.env.seed(seed)
+        self.env.action_space.seed(seed)
+        self.env.observation_space.seed(seed)
+        np.random.seed(seed)
+        torch.manual_seed(seed)
+        torch.use_deterministic_algorithms(True)
+
+    @staticmethod
+    def plot_stats(stats):
+        rows = len(stats)
+        cols = 1
+
+        fig, ax = plt.subplots(rows, cols, figsize=(12, 6))
+
+        for i, key in enumerate(stats):
+            vals = stats[key]
+            vals = [np.mean(vals[i - 10:i + 10]) for i in range(10, len(vals) - 10)]
+            if len(stats) > 1:
+                ax[i].plot(range(len(vals)), vals)
+                ax[i].set_title(key, size=18)
+            else:
+                ax.plot(range(len(vals)), vals)
+                ax.set_title(key, size=18)
+        plt.tight_layout()
+        plt.show()
+
+    def plot_cost_to_go(self, q_network, xlabel=None, ylabel=None):
+        highx, highy = self.env.observation_space.high
+        lowx, lowy = self.env.observation_space.low
+        X = torch.linspace(lowx, highx, 100)
+        Y = torch.linspace(lowy, highy, 100)
+        X, Y = torch.meshgrid(X, Y)
+
+        q_net_input = torch.stack([X.flatten(), Y.flatten()], dim=-1)
+        Z = - q_network(q_net_input).max(dim=-1, keepdim=True)[0]
+        Z = Z.reshape(100, 100).detach().numpy()
+        X = X.numpy()
+        Y = Y.numpy()
+
+        fig = plt.figure(figsize=(8, 8))
+        ax = fig.add_subplot(111, projection='3d')
+        surf = ax.plot_surface(X, Y, Z, cmap='jet', linewidth=0, antialiased=False)
+        fig.colorbar(surf, shrink=0.5, aspect=5)
+        ax.set_xlabel(xlabel, size=14)
+        ax.set_ylabel(ylabel, size=14)
+        ax.set_title("Estimated cost-to-go", size=18)
+        plt.tight_layout()
+        plt.show()
+
+    def plot_max_q(self, q_network, xlabel=None, ylabel=None, action_labels=[]):
+        highx, highy = self.env.observation_space.high
+        lowx, lowy = self.env.observation_space.low
+        X = torch.linspace(lowx, highx, 100)
+        Y = torch.linspace(lowy, highy, 100)
+        X, Y = torch.meshgrid(X, Y)
+        q_net_input = torch.stack([X.flatten(), Y.flatten()], dim=-1)
+        Z = q_network(q_net_input).argmax(dim=-1, keepdim=True)
+        Z = Z.reshape(100, 100).T.detach().numpy()
+        values = np.unique(Z.ravel())
+        values.sort()
+
+        plt.figure(figsize=(5, 5))
+        plt.xlabel(xlabel, size=14)
+        plt.ylabel(ylabel, size=14)
+        plt.title("Optimal action", size=18)
+
+        im = plt.imshow(Z, cmap='jet')
+        colors = [im.cmap(im.norm(value)) for value in values]
+        patches = [mpatches.Patch(color=color, label=label) for color, label in zip(colors, action_labels)]
+        plt.legend(handles=patches, bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
+        plt.tight_layout()
