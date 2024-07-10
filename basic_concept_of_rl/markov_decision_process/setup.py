@@ -173,35 +173,35 @@ class Maze(gym.Env):
         return distances
 
 
-def save_video(frames):
-    """save video to file"""
-    plt.rcParams['animation.ffmpeg_path'] = r'C:\ffmpeg-7.0.1-full_build\bin\ffmpeg.exe'
-    fig, ax = plt.subplots()
-    ax.set_axis_off()
-    im = ax.imshow(frames[0])
-
-    def update(frame):
-        im.set_data(frame)
-        return [im]
-
-    anim = animation.FuncAnimation(fig, update, frames=frames, interval=50, blit=True)
-    anim.save('output_video.mp4', writer='ffmpeg')  # Save the animation to a file
-    plt.close(fig)
-
-
-def display_video(frames):
-    """display video directly"""
-    # plt.rcParams['animation.ffmpeg_path'] = r'C:\ffmpeg-7.0.1-full_build\bin\ffmpeg.exe'
-    matplotlib.use('TkAgg')  # Use TkAgg for interactive plots
-    fig, ax = plt.subplots()
-    im = ax.imshow(frames[0])
-
-    def update(frame):
-        im.set_data(frame)
-        return [im]
-
-    anim = animation.FuncAnimation(fig, update, frames=frames, interval=50, blit=True)
-    plt.show()
+# def save_video(frames):
+#     """save video to file"""
+#     plt.rcParams['animation.ffmpeg_path'] = r'C:\ffmpeg-7.0.1-full_build\bin\ffmpeg.exe'
+#     fig, ax = plt.subplots()
+#     ax.set_axis_off()
+#     im = ax.imshow(frames[0])
+#
+#     def update(frame):
+#         im.set_data(frame)
+#         return [im]
+#
+#     anim = animation.FuncAnimation(fig, update, frames=frames, interval=50, blit=True)
+#     anim.save('output_video.mp4', writer='ffmpeg')  # Save the animation to a file
+#     plt.close(fig)
+#
+#
+# def display_video(frames):
+#     """display video directly"""
+#     # plt.rcParams['animation.ffmpeg_path'] = r'C:\ffmpeg-7.0.1-full_build\bin\ffmpeg.exe'
+#     matplotlib.use('TkAgg')  # Use TkAgg for interactive plots
+#     fig, ax = plt.subplots()
+#     im = ax.imshow(frames[0])
+#
+#     def update(frame):
+#         im.set_data(frame)
+#         return [im]
+#
+#     anim = animation.FuncAnimation(fig, update, frames=frames, interval=50, blit=True)
+#     plt.show()
 
 
 def show_frame(env, state):

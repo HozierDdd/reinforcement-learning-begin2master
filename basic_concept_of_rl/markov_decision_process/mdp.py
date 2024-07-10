@@ -1,6 +1,7 @@
 import numpy as np
 from matplotlib import pyplot as plt
-from setup import Maze, display_video
+from utils import Utils
+from environments.maze import Maze
 from setup import show_frame
 
 
@@ -93,7 +94,7 @@ def test_agent(policy):
         frames.append(img)
         state = next_state
 
-    return display_video(frames)
+    return Utils.display_video(frames)
 
 
 if __name__ == '__main__':
