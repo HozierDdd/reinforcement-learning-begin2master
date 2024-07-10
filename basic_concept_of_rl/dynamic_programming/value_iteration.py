@@ -18,7 +18,10 @@ class ValueIteration():
         # of total state is 25. Each state has 4 actions can choose.
 
     def show_init_environment(self):
-        """show the initialized maze environment"""
+        """
+        show the initialized maze environment
+        :return:
+        """
         frame = self.env.render(mode='rgb_array')
         plt.figure(figsize=(6, 6))
         plt.axis('off')
@@ -34,9 +37,16 @@ class ValueIteration():
         return self.policy_probs[state]
 
     def value_iteration(self):
-        delta = float('inf')  # delta is measure the difference between the current state values and the updated
-        # state values in each iteration
+        """
+        Finding the optimal policy and value function for maze environment
+        :return:
+        """
 
+        '''delta is used to track the maximum change in the value function across all states in an iteration. The 
+        algorithm will continue iterating until delta is smaller than self.theta, 
+        ensuring convergence to the optimal values.'''
+        delta = float('inf')
+        frame = self.env.render(mode='rgb_array')
         while delta > self.theta:
             delta = 0
             for row in range(5):
@@ -53,10 +63,11 @@ class ValueIteration():
                             action_probs = np.zeros(4)
                             action_probs[action] = 1.
 
-                    self.state_values[(row, col)] = max_qsa
-                    self.policy_probs[(row, col)] = action_probs
+                    self.state_values[(row, col)] = max_qsa  # update state value on each state
+                    self.policy_probs[(row, col)] = action_probs  # update policy on each state
 
                     delta = max(delta, abs(max_qsa - old_value))
-        frame = self.env.render(mode='rgb_array')
-        self.utils.plot_values(self.state_values, frame)
+            self.utils.plot_state_values(self.state_values, frame)
+            self.utils.plot_policy(self.policy_probs, frame)
+        self.utils.plot_state_values(self.state_values, frame)
         self.utils.plot_policy(self.policy_probs, frame)

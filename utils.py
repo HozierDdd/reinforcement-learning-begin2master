@@ -89,7 +89,7 @@ class Utils():
         plt.show()
 
     @staticmethod
-    def plot_values(state_values, frame):
+    def plot_state_values(state_values, frame):
         """
         visualize the state value
         :param state_values:

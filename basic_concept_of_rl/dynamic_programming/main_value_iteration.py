@@ -20,4 +20,4 @@ if __name__ == '__main__':
     # vi.utils.plot_values(state_values, frame)
     """value iteration function"""
     vi.value_iteration()
-    vi.utils.test_agent(policy=vi.policy)
+    # vi.utils.test_agent(policy=vi.policy)
