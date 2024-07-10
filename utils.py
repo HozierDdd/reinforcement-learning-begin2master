@@ -15,8 +15,8 @@ from pygame import gfxdraw
 
 
 class Utils():
-    def __init__(self):
-        return
+    def __init__(self, environment):
+        self.env = environment
 
     @staticmethod
     def save_video(frames):
@@ -47,4 +47,12 @@ class Utils():
             return [im]
 
         anim = animation.FuncAnimation(fig, update, frames=frames, interval=50, blit=True)
+        plt.show()
+
+    def show_frame(self, state):
+        """show a frame in the given environment"""
+        frame = self.env.render(mode='rgb_array')
+        plt.axis('off')
+        plt.title(f"State: {state}")
+        plt.imshow(frame)
         plt.show()
