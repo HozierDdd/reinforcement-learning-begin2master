@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from setup import Maze
+from environments.maze import Maze
 from setup import test_agent
 
 
