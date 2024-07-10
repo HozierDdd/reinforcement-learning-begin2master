@@ -91,6 +91,7 @@ def test_agent(policy):
         action_probabilities = policy(state)
         action = np.random.choice(range(4), 1, p=action_probabilities)
         next_state, reward, done, extra_info = env.step(action)
+        print(f'current state:{state} reward:{reward} done:{done} next state:{next_state}')
         img = env.render(mode="rgb_array")
         frames.append(img)
         state = next_state
