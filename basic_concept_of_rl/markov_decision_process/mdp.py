@@ -105,5 +105,5 @@ if __name__ == '__main__':
     # show_trajectory()
     # show_episode()
     # show_total_reward()
-    random_policy_episode()
-    # test_agent(random_policy)
+    # random_policy_episode()
+    test_agent(random_policy)
