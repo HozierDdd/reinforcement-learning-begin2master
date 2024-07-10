@@ -2,7 +2,8 @@ import numpy as np
 from matplotlib import pyplot as plt
 from utils import Utils
 from environments.maze import Maze
-from setup import show_frame
+
+utils = Utils(Maze)
 
 
 def initialize_environment():
@@ -15,13 +16,13 @@ def initialize_environment():
 def show_trajectory():
     env, state = initialize_environment()
     trajectory = []
-    show_frame(env=env, state=state)
+    utils.show_frame(state=state)
     for _ in range(3):
         action = env.action_space.sample()
         next_state, reward, done, extra_info = env.step(action)
         trajectory.append([state, action, reward, done, next_state])
         state = next_state
-        show_frame(env=env, state=state)
+        utils.show_frame(state=state)
     env.close()
 
     print(f"Congrats! You just generated your first trajectory:\n{trajectory}")
@@ -31,13 +32,13 @@ def show_episode():
     env, state = initialize_environment()
     episode = []
     done = False
-    show_frame(env=env, state=state)
+    utils.show_frame(state=state)
     while not done:
         action = env.action_space.sample()
         next_state, reward, done, extra_info = env.step(action)
         episode.append([state, action, reward, done, next_state])
         state = next_state
-        show_frame(env=env, state=state)
+        utils.show_frame(state=state)
     env.close()
 
     print(f"Congrats! You just generated your first episode:\n{episode}")

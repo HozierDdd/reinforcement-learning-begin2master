@@ -1,11 +1,12 @@
 import random
-from setup import Maze
-from setup import show_frame
+from environments.maze import Maze
+from utils import Utils
 
 env = Maze()  # initialize the environment with Maze environment
+utils = Utils(env)
 initial_state = env.reset()
 print(f"The new episode will start in state: {initial_state}")
-show_frame(env, initial_state)
+utils.show_frame(initial_state)
 
 done = False
 while not done:
